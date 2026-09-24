@@ -1,0 +1,64 @@
+---
+title: "Ch01 Introduction"
+author: "Sambhav Goyal"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## What is Survival Analysis
+
+Surviaval analysis is the study of survival times and what factors influence this time. The technique is used actively in medical researcb, to analyze the time of entry (clinical trial, birth, etc.).
+
+### What are we trying to do?
+
+- Estimate a survival distribution
+- Compare a survival distribution across treatments
+- Explain the factors influencing the survival times
+
+## Survival Data and Censoring
+
+Key characteristics of survival data:
+
+- Response variable (what we are predicting) : Non negative random variable (discrete/ continous). The variable represents time from a well-defined origin to a well-defined event. For example, if we want to identify the survival time of a flu, that time is a positive number and it is a response associated with several confounding factors. -
+
+- Censoring: occurs when the exact time to an event of interest is unknown, but you know the event happened before, after, or during a specific time window. Usually, there are three types of censoring, right, left and interval.
+
+  - Right Censoring: The most common type. It happens when a study ends or a participant drops out or dies from another cause before the event occurs. You only know the event happened after a certain point in time.
+  - Left Censoring: This occurs when the event of interest already happened before the participant entered the study. You only know the event happened before a specific time.
+  - Interval Censoring: This happens when the exact time of the event is unknown, but you know it occurred somewhere between two specific observation times or check-ups.
+
+**Example** Imagine studying the time until a pedestrian accepts a gap at an unsignalized crossing. You watch a pedestrian for 30 seconds, but they still have not crossed when your video clip ends. Their actual gap-acceptance time might be 35 s, 50 s, or even longer. You only know: $$ T^* > 30 $$
+
+So basically, we are observing for only 30 seconds. Anything above it is not a part of our interest and so we censor the data. Another example could be censoring for a PET \< 3 seconds for a traffic conflict.
+
+$$T = min(T^*, U) $$ where $T^*$ is the time of real event and U is the censoring time.
+
+Suppose a research question could be :
+
+`How long does a pedestrian wait before accepting a gap at an unsignalized crossing?`
+
+In this case, Survival time (predictor) is the waiting time. Lets say we observed three events:
+
+- A ($T_1$ Came to the crossing and accepted a gap at some time) {Complete observation},
+- B ($T_2$ nearing end of video and not taking an action) {I have starting info but not end info}
+- C ($T_3$ the pedestrian was already at the crossing when the recording started) {No start info}
+
+In this case, A: completely observed event, B: right censored (we dont have info at the right side), & C: left censored (we dont have info on the left side)
+
+
+#### How Censoring happens?
+
+| Type | What is fixed? | Transportation example |
+|---------------|--------------------------|-------------------------------|
+| **Type I** | Observation duration | Camera records intersection for exactly 2 hours |
+| **Type II** | Number of events | Observe until 100 conflicts occur |
+| **Random** | Neither; censoring varies by observation | Vehicles leave camera view at different times |
+
+
+**NOTE**
+Type I/II/random censoring tell you how censoring happens, whereas right/left/interval censoring tell you what information about the event time you have. Those are two different classifications, and textbooks sometimes introduce them close together, which makes them easy to mix up.
+
+
